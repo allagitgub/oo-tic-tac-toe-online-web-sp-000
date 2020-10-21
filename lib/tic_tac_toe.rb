@@ -109,14 +109,16 @@ def winner
   end
    nil
 end
+
 def play
-  while !over?
-    turn
-  end
-  if(won?)
-    currentwinner = winner
-    puts "Congratulations #{currentwinner}!"
-  else
-    puts "Cat's Game!"
+    while !over?
+      turn
+    end
+    if won?
+      currentwinner = winner
+      puts "Congratulations #{currentwinner}!"
+    else
+      puts "Cat's Game!"
+    end
   end
 end
