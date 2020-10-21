@@ -99,7 +99,7 @@ def over?
 end
 
 def winner
-  if(won?
+  if won?
     if( WIN_COMBINATIONS.detect {|win_combination|
       (@board[win_combination[0]] == "X" && @board[win_combination[1]] == "X" && @board[win_combination[2]] == "X") })
       return  "X"
