@@ -29,8 +29,8 @@ def input_to_index(input)
   index - 1
 end
 
-def move(board, index, value="X")
-  board[index] = value
+def move(index, value="X")
+  @board[index] = value
 end
 
 def input_to_index(input)
@@ -38,70 +38,70 @@ def input_to_index(input)
   index - 1
 end
 
-def move(board, index, value)
-  board[index] = value
+def move(index, value)
+  @board[index] = value
 end
 
-def position_taken?(board, index)
-  !(board[index].nil? || board[index] == " ")
+def position_taken?(index)
+  !(@board[index].nil? || @board[index] == " ")
 end
 
-def valid_move?(board, index)
-  index.between?(0,8) && !position_taken?(board, index)
+def valid_move?(index)
+  index.between?(0,8) && !position_taken?(index)
 end
 
-def turn(board)
+def turn
   puts "Please enter 1-9:"
   input = gets.strip
   index = input_to_index(input)
-  while !valid_move?(board,index)
+  while !valid_move?(index)
     puts "Please enter 1-9:"
     input = gets.strip
     index = input_to_index(input)
   end
-  cur_pl = current_player(board)
-  move(board, index, cur_pl)
-  display_board(board)
+  cur_pl = current_player
+  move(index, cur_pl)
+  display_board
 end
 
-def turn_count(board)
+def turn_count
   count = 0
-  board.each do  |item|
+  @board.each do  |item|
     if !(item == " " || item == "" )
       count += 1
     end
   end
-  return count
+  count
 end
 
-def current_player(board)
-  turns = turn_count(board)
+def current_player
+  turns = turn_count
   return turns % 2 == 0 ? "X" : "O"
 end
 
-def won?(board)
+def won?
   WIN_COMBINATIONS.detect do |win_combination|
-    (board[win_combination[0]] == "X" && board[win_combination[1]] == "X" && board[win_combination[2]] == "X") ||
-    (board[win_combination[0]] == "O" && board[win_combination[1]] == "O" && board[win_combination[2]] == "O")
+    (@board[win_combination[0]] == "X" && @board[win_combination[1]] == "X" && @board[win_combination[2]] == "X") ||
+    (@board[win_combination[0]] == "O" && @board[win_combination[1]] == "O" && @board[win_combination[2]] == "O")
  end
 end
 
-def full?(board)
-  board.select{ |item| item != " " && !item.nil? && item != ""}.size == 9
+def full?
+  @board.select{ |item| item != " " && !item.nil? && item != ""}.size == 9
 end
 
-def draw?(board)
-  !(won?(board) || !full?(board))
+def draw?
+  !(won? || !full?)
 end
 
-def over?(board)
-  won?(board) || full?(board) || draw?(board)
+def over?
+  won? || full? || draw?
 end
 
-def winner(board)
-  if(won?(board))
+def winner
+  if(won?
     if( WIN_COMBINATIONS.detect {|win_combination|
-      (board[win_combination[0]] == "X" && board[win_combination[1]] == "X" && board[win_combination[2]] == "X") })
+      (@board[win_combination[0]] == "X" && @board[win_combination[1]] == "X" && @board[win_combination[2]] == "X") })
       return  "X"
     else
       return "O"
@@ -109,15 +109,14 @@ def winner(board)
   end
    nil
 end
-def play(board)
-  while !over?(board)
-    turn(board)
+def play
+  while !over?
+    turn
   end
-  if(won?(board))
-    winner = winner(board);
-    puts "Congratulations #{winner}!"
+  if(won?)
+    currentwinner = winner
+    puts "Congratulations #{currentwinner}!"
   else
     puts "Cat's Game!"
   end
-
 end
